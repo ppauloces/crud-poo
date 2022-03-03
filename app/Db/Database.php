@@ -3,6 +3,7 @@
 namespace App\Db;
 
 use \PDO;
+use \PDOException;
 
 class DataBase{
 
@@ -57,8 +58,19 @@ class DataBase{
 	private function setConnection(){
 		try{
 			$this->connection = new PDO('mysql:host='.self::HOST.';dbname='.self::NAME,self::USER, self::PASS);
+			$this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		}catch(PDOException $e){
 			die('ERROR: '.$e->getMessage());
 		}
+	}
+
+	/**
+	 * Método responsável por inserir dados no banco
+	 * @param array $values [field => value]
+	 * @return integer
+	 */
+	public function insert($values){
+		$query = "INSERT INTO $this->table (titulo,descricao,ativo,data) VALUES (?,?,?,?)";
+		echo $query; exit;
 	}
 }
